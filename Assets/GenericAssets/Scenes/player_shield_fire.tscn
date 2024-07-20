@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://olo5bjfoipif"]
+
+[ext_resource type="Texture2D" uid="uid://b1kfwb5txxygi" path="res://icon.svg" id="1_1l8go"]
+[ext_resource type="Script" path="res://Assets/Code/Scripts/player_shield_fire.gd" id="2_yw3a3"]
+
+[node name="Sprite2D" type="Sprite2D"]
+texture = ExtResource("1_1l8go")
+script = ExtResource("2_yw3a3")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 30
+lifetime = 3.0
+speed_scale = 3.48
+lifetime_randomness = 1.0
+texture = ExtResource("1_1l8go")
+emission_shape = 2
+emission_sphere_radius = 26.24
+direction = Vector2(0, 0)
+spread = 5.73
+gravity = Vector2(0, 0)
+initial_velocity_min = 6.45
+initial_velocity_max = 842.84
