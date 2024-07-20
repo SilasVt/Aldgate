@@ -1,2 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
+.Assets/EarthAssets
+.Assets/FireAssets
+.Assets/WindAssets
+.Assets/WaterAssets
+.Assets/GenericAssets
