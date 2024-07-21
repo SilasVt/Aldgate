@@ -9,7 +9,7 @@ script = ExtResource("2_yw3a3")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 amount = 30
-lifetime = 3.0
+lifetime = 2.0
 speed_scale = 3.48
 lifetime_randomness = 1.0
 texture = ExtResource("1_1l8go")
@@ -20,3 +20,10 @@ spread = 5.73
 gravity = Vector2(0, 0)
 initial_velocity_min = 6.45
 initial_velocity_max = 842.84
+angle_min = -10.0
+angle_max = 10.5
+scale_amount_min = 0.1
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+rotation = -1.494
+target_position = Vector2(881, 0)
