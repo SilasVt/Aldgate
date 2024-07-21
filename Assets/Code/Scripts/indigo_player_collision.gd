@@ -7,6 +7,7 @@ static var equipped_shield_element := "FIRE"
 var incoming_element := "none"
 static var direction
 var shield_active = false
+static var shield_select
 
 
 @onready var animated_sprite_2d = $"../AnimatedSprite2D"
@@ -50,6 +51,26 @@ func _ready():
 	fire_shield.set_direction(Vector2 (0,0))
 	
 func _process(_delta):
+	
+	shield_select = Vector2(Input.get_axis("shield_1", "shield_2"), Input.get_axis("shield_3", "shield_4")).normalized()
+
+	
+	match shield_select:
+		Vector2(-1, 0):
+			equipped_shield_element = "FIRE"
+			print("FIRE")
+		Vector2(1, 0):
+			equipped_shield_element = "WATER"
+			print("WATER")
+		Vector2(0, -1):
+			equipped_shield_element = "EARTH"
+			print("EARTH")
+		Vector2(0, 1):
+			equipped_shield_element = "WIND"
+			print("WIND")
+	
+	
+	#Get Directional Info for shield/weapons
 	var direction_t = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).normalized()
 	if direction_t != Vector2(0, 0):
 		direction = direction_t

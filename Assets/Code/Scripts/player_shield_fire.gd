@@ -9,9 +9,16 @@ extends Sprite2D
 var shield_blocking := false
 var shield_element_active := false
 signal enemy_entered_shield_effect(enemy)
-const TYPE := "Fire"
+const ELEMENT := "FIRE"
+const TYPE := "SHIELD"
 var degrees
 
+
+func get_element():
+	return ELEMENT
+	
+func get_type():
+	return TYPE
 
 func _ready():
 	pass # Replace with function body.
@@ -39,12 +46,10 @@ func _process(delta):
 	if Input.is_action_just_pressed("shield_block"):
 		shield_blocking = true
 		start_blocking_sound.play()
-		#animation Play blocking(degrees)
+	#animation Play blocking(degrees)
 	
 	if Input.is_action_just_released("shield_block"):
 		shield_blocking = false
 		stop_blocking_sound.play()
 		#animation Play blocking(degrees)
 
-func _on_shield_area_area_entered(area):
-	pass
