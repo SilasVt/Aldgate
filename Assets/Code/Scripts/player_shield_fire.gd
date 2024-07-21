@@ -10,6 +10,10 @@ extends AnimatedSprite2D
 @onready var element_collision_shape = $ShieldArea/ElementCollisionShape
 @onready var animated_sprite_2d = $"."
 
+@export var scale_idle := 0.3
+@export var scale_blocking := 0.38
+@export var scale_element_active := 0.40
+
 var shield_blocking := false
 var shield_element_active := false
 var shield_in_use := false
@@ -61,21 +65,33 @@ func set_direction(new_direction):
 	shield_area.rotation_degrees = degrees
 	
 func set_active(state):
-	if shield_in_use and state:
-		cpu_particles_2d.set_emitting(state)
-		element_collision_shape.disabled = !state
-	else:
-		cpu_particles_2d.set_emitting(false)
-		element_collision_shape.disabled = true
+	pass
+
+
+	
 
 		
 func _process(delta):
 	if !shield_in_use:
 		print("Fire Not In Use")
 		animated_sprite_2d.set_animation("off")
+		animated_sprite_2d.set_scale(Vector2(scale_idle, scale_idle))
 		return
-	print(degrees)
-
+	print("shield in use")
+	
+	#Set Flames on or off//Flames also Blocks automatically
+	if Input.is_action_just_pressed("shield_action") and shield_in_use:
+		cpu_particles_2d.set_emitting(true)
+		element_collision_shape.disabled = false
+		shield_blocking = true
+		animated_sprite_2d.set_scale(Vector2(scale_element_active, scale_element_active))
+	
+	if Input.is_action_just_released("shield_action") and shield_in_use:
+		cpu_particles_2d.set_emitting(false)
+		element_collision_shape.disabled = true
+		shield_blocking = false
+		animated_sprite_2d.set_scale(Vector2(scale_idle, scale_idle))
+		
 	if degrees < 22 or degrees > 337:
 		animated_sprite_2d.set_animation("right")
 		animated_sprite_2d.set_z_index(3)
@@ -111,11 +127,15 @@ func _process(delta):
 	animated_sprite_2d.play()
 	
 	if Input.is_action_just_pressed("shield_block"):
+		print("Block Start")
 		shield_blocking = true
+		animated_sprite_2d.set_scale(Vector2(scale_blocking, scale_blocking))
 		start_blocking_sound.play()
 	#animation Play blocking(degrees)
 	
 	if Input.is_action_just_released("shield_block"):
+		print("Block Ended")
+		animated_sprite_2d.set_scale(Vector2(scale_idle, scale_idle))
 		shield_blocking = false
 		stop_blocking_sound.play()
 		#animation Play blocking(degrees)

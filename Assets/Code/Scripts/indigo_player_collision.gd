@@ -47,14 +47,14 @@ func _on_area_entered(area):
 		death_sound.play()
 	
 func _ready():
-	print ("Set Shield")
-	fire_shield.set_direction(Vector2 (0,0))
+	pass
+	#print ("Set Shield")
+	#fire_shield.set_direction(Vector2 (0,0))
 	
 func _process(_delta):
 	
+	#1 for fire, 2 for water, 3 for earth, 4 for wind
 	shield_select = Vector2(Input.get_axis("shield_1", "shield_2"), Input.get_axis("shield_3", "shield_4")).normalized()
-	
-	
 	match shield_select:
 		Vector2(-1, 0):
 			equipped_shield_element = "FIRE"
@@ -74,34 +74,17 @@ func _process(_delta):
 			print("WIND")
 	
 	
-	#Get Directional Info for shield/weapons
+	#Get and set Directional Info for shield/weapons. Run always
 	var direction_t = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).normalized()
 	if direction_t != Vector2(0, 0):
 		direction = direction_t
-	
 	fire_shield.set_direction(direction)
+	#water_shield.set_direction(direction)
+	#earth_shield.set_direction(direction)
+	#wind_shield.set_direction(direction)
 	
-	if Input.is_action_pressed("shield_action"):
-		shield_active = true
-		match equipped_shield_element:	
-			"FIRE":
-				handle_fire_shield()
-			#"water":
-			#	handle_water_state()
-			#"ice":
-			#	handle_ice_state()
-			#"wind":
-			#	handle_wind_state()
-			_:
-				print("Unmatched Shield Type")
-				
-	if !Input.is_action_pressed("shield_action"):
-		shield_active = false
-		shield_elements_off()
-
 func shield_elements_off():
 	fire_shield.set_active(false)
-	fire_shield.set_direction(direction)
 
 func handle_fire_shield():
 		fire_shield.set_active(true)
