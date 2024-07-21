@@ -1,21 +1,114 @@
-[gd_scene load_steps=6 format=3 uid="uid://olo5bjfoipif"]
+[gd_scene load_steps=18 format=3 uid="uid://olo5bjfoipif"]
 
 [ext_resource type="Texture2D" uid="uid://b1kfwb5txxygi" path="res://icon.svg" id="1_1l8go"]
+[ext_resource type="Texture2D" uid="uid://cyykpxl3p6tiq" path="res://Assets/FireAssets/Tiles/shield_down.png" id="1_rbbxb"]
+[ext_resource type="Texture2D" uid="uid://4jjajst23y8" path="res://Assets/FireAssets/Tiles/shield_downleft.png" id="2_uw27y"]
 [ext_resource type="Script" path="res://Assets/Code/Scripts/player_shield_fire.gd" id="2_yw3a3"]
+[ext_resource type="Texture2D" uid="uid://d1k62egx3nky3" path="res://Assets/FireAssets/Tiles/shield_downright.png" id="3_2sr27"]
 [ext_resource type="AudioStream" uid="uid://nghar1otsu4o" path="res://Assets/Minecraft/item/shield/block1.wav" id="3_178xf"]
+[ext_resource type="Texture2D" uid="uid://css58wl5ihsie" path="res://Assets/FireAssets/Tiles/shield_left.png" id="4_fjte0"]
 [ext_resource type="AudioStream" uid="uid://bspwgnxp58510" path="res://Assets/Minecraft/item/shield/block2.wav" id="4_m1dnv"]
+[ext_resource type="Texture2D" uid="uid://mcei1h1nexj5" path="res://Assets/FireAssets/Tiles/shield_right.png" id="5_fxpay"]
+[ext_resource type="AudioStream" uid="uid://b54vmmyrq4iya" path="res://Assets/Minecraft/item/shield/block3.wav" id="5_m187b"]
+[ext_resource type="Texture2D" uid="uid://c0538ua3omkxd" path="res://Assets/FireAssets/Tiles/shield_off.png" id="5_xrbvv"]
+[ext_resource type="Texture2D" uid="uid://g00u1inhgdao" path="res://Assets/FireAssets/Tiles/shield_up.png" id="6_msh6f"]
+[ext_resource type="AudioStream" uid="uid://bawaxo2752qn2" path="res://Assets/Minecraft/item/shield/block4.wav" id="6_n88y5"]
+[ext_resource type="Texture2D" uid="uid://b6edjvynmv825" path="res://Assets/FireAssets/Tiles/shield_upleft.png" id="7_l7nh0"]
+[ext_resource type="Texture2D" uid="uid://b5gtugx21kmr" path="res://Assets/FireAssets/Tiles/shield_upright.png" id="8_dlo41"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bb1md"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rbbxb")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_uw27y")
+}],
+"loop": true,
+"name": &"down_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_2sr27")
+}],
+"loop": true,
+"name": &"down_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_fjte0")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_xrbvv")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_fxpay")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_msh6f")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_l7nh0")
+}],
+"loop": true,
+"name": &"up_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_dlo41")
+}],
+"loop": true,
+"name": &"up_right",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wwa25"]
 radius = 101.0
 height = 980.0
 
-[node name="Sprite2D" type="Sprite2D"]
-texture = ExtResource("1_1l8go")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+z_index = 5
+z_as_relative = false
+position = Vector2(-9.53674e-07, 2)
+scale = Vector2(0.428, 0.4)
+sprite_frames = SubResource("SpriteFrames_bb1md")
+animation = &"off"
 script = ExtResource("2_yw3a3")
 
 [node name="ShieldArea" type="Area2D" parent="."]
+z_as_relative = false
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="ShieldArea"]
+position = Vector2(142, 0)
 emitting = false
 amount = 30
 lifetime = 2.0
@@ -34,21 +127,32 @@ angle_max = 10.5
 scale_amount_min = 0.1
 
 [node name="StartBlockingSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
+visible = false
 stream = ExtResource("3_178xf")
 bus = &"PlayerSFX"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ShieldArea"]
+[node name="ElementCollisionShape" type="CollisionShape2D" parent="ShieldArea"]
+visible = false
 position = Vector2(420, -4)
 rotation = 1.56683
 shape = SubResource("CapsuleShape2D_wwa25")
 
 [node name="StopBlockingSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
+visible = false
 stream = ExtResource("4_m1dnv")
 bus = &"PlayerSFX"
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="GetShield" type="AudioStreamPlayer2D" parent="ShieldArea"]
 visible = false
-rotation = -1.494
-target_position = Vector2(881, 0)
+stream = ExtResource("5_m187b")
+bus = &"PlayerSFX"
 
-[connection signal="area_entered" from="ShieldArea" to="." method="_on_shield_area_area_entered"]
+[node name="PackAwayShield" type="AudioStreamPlayer2D" parent="ShieldArea"]
+visible = false
+position = Vector2(-4, 2)
+stream = ExtResource("6_n88y5")
+bus = &"PlayerSFX"
+
+[node name="FailSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
+visible = false
+position = Vector2(-4, 6)

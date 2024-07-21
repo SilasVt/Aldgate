@@ -1,0 +1,15 @@
+shield 1 = -1, 0
+2 = 1, 0
+3 = 0, -1
+4 = 0, 1
+
+
+Right 0 ( < 22 or > 337
+Up Right 315
+Left 180
+Up Left 225
+Down Left 135
+Up 270
+Down 90
+Down Right 45
+

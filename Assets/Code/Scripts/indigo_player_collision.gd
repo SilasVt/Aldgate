@@ -53,20 +53,24 @@ func _ready():
 func _process(_delta):
 	
 	shield_select = Vector2(Input.get_axis("shield_1", "shield_2"), Input.get_axis("shield_3", "shield_4")).normalized()
-
+	
 	
 	match shield_select:
 		Vector2(-1, 0):
 			equipped_shield_element = "FIRE"
+			fire_shield.select_shield(true)
 			print("FIRE")
 		Vector2(1, 0):
 			equipped_shield_element = "WATER"
+			fire_shield.select_shield(false)
 			print("WATER")
 		Vector2(0, -1):
 			equipped_shield_element = "EARTH"
+			fire_shield.select_shield(false)
 			print("EARTH")
 		Vector2(0, 1):
 			equipped_shield_element = "WIND"
+			fire_shield.select_shield(false)
 			print("WIND")
 	
 	
@@ -74,6 +78,8 @@ func _process(_delta):
 	var direction_t = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).normalized()
 	if direction_t != Vector2(0, 0):
 		direction = direction_t
+	
+	fire_shield.set_direction(direction)
 	
 	if Input.is_action_pressed("shield_action"):
 		shield_active = true
@@ -95,9 +101,9 @@ func _process(_delta):
 
 func shield_elements_off():
 	fire_shield.set_active(false)
-	
+	fire_shield.set_direction(direction)
 
 func handle_fire_shield():
 		fire_shield.set_active(true)
-		fire_shield.set_direction(direction)
+		
 
