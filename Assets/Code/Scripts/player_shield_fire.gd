@@ -3,8 +3,14 @@ extends Sprite2D
 @onready var shield_area = $ShieldArea
 @onready var collision_shape_2d = $ShieldArea/CollisionShape2D
 @onready var cpu_particles_2d = $ShieldArea/CPUParticles2D
+@onready var start_blocking_sound = $ShieldArea/StartBlockingSound
+@onready var stop_blocking_sound = $ShieldArea/StopBlockingSound
 
+var shield_blocking := false
+var shield_element_active := false
+signal enemy_entered_shield_effect(enemy)
 const TYPE := "Fire"
+var degrees
 
 
 func _ready():
@@ -16,7 +22,7 @@ func set_direction(new_direction):
 	# Convert the angle from radians to degrees
 	# Normalize the angle to be between 0 and 360 degrees
 	var radians = atan2(new_direction.y, new_direction.x)
-	var degrees = radians * 180 / PI
+	degrees = radians * 180 / PI
 	if degrees < 0:
 		degrees += 360
 		
@@ -30,4 +36,15 @@ func set_active(state):
 func _process(delta):
 	#if ray_cast_2d.is_colliding():
 		#var collider = shield_raycast.get_collider()
+	if Input.is_action_just_pressed("shield_block"):
+		shield_blocking = true
+		start_blocking_sound.play()
+		#animation Play blocking(degrees)
+	
+	if Input.is_action_just_released("shield_block"):
+		shield_blocking = false
+		stop_blocking_sound.play()
+		#animation Play blocking(degrees)
+
+func _on_shield_area_area_entered(area):
 	pass

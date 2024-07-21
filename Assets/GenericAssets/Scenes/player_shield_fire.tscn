@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://olo5bjfoipif"]
+[gd_scene load_steps=6 format=3 uid="uid://olo5bjfoipif"]
 
 [ext_resource type="Texture2D" uid="uid://b1kfwb5txxygi" path="res://icon.svg" id="1_1l8go"]
 [ext_resource type="Script" path="res://Assets/Code/Scripts/player_shield_fire.gd" id="2_yw3a3"]
+[ext_resource type="AudioStream" uid="uid://nghar1otsu4o" path="res://Assets/Minecraft/item/shield/block1.wav" id="3_178xf"]
+[ext_resource type="AudioStream" uid="uid://bspwgnxp58510" path="res://Assets/Minecraft/item/shield/block2.wav" id="4_m1dnv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wwa25"]
 radius = 101.0
@@ -31,12 +33,22 @@ angle_min = -10.0
 angle_max = 10.5
 scale_amount_min = 0.1
 
+[node name="StartBlockingSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
+stream = ExtResource("3_178xf")
+bus = &"PlayerSFX"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShieldArea"]
 position = Vector2(420, -4)
 rotation = 1.56683
 shape = SubResource("CapsuleShape2D_wwa25")
 
+[node name="StopBlockingSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
+stream = ExtResource("4_m1dnv")
+bus = &"PlayerSFX"
+
 [node name="RayCast2D" type="RayCast2D" parent="."]
 visible = false
 rotation = -1.494
 target_position = Vector2(881, 0)
+
+[connection signal="area_entered" from="ShieldArea" to="." method="_on_shield_area_area_entered"]
