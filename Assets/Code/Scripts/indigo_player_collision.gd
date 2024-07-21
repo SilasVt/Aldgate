@@ -6,6 +6,8 @@ static var shield_equipped := false
 static var equipped_shield_element := "FIRE"
 var incoming_element := "none"
 static var direction
+var shield_active = true
+
 
 @onready var animated_sprite_2d = $"../AnimatedSprite2D"
 @onready var death_sound = $DeathSound
@@ -49,25 +51,26 @@ func _process(_delta):
 	var direction_t = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).normalized()
 	if direction_t != Vector2(0, 0):
 		direction = direction_t
-		
-	match equipped_shield_element:	
-		"FIRE":
-			handle_fire_shield()
-		#"water":
-		#	handle_water_state()
-		#"ice":
-		#	handle_ice_state()
-		#"wind":
-		#	handle_wind_state()
-		_:
-			print("unmatched")
+	
+	if Input.is_action_pressed("shield_action"):
+		shield_active = true
+		match equipped_shield_element:	
+			"FIRE":
+				handle_fire_shield(shield_active)
+			#"water":
+			#	handle_water_state()
+			#"ice":
+			#	handle_ice_state()
+			#"wind":
+			#	handle_wind_state()
+			_:
+				print("unmatched")
 			
 
 
 
-func handle_fire_shield():
-	
-	if Input.is_action_pressed("shield_action"):
+func handle_fire_shield(shield_active):
+	if shield_active:
 		fire_shield.set_active(true)
 		fire_shield.set_direction(direction)
 	else:
