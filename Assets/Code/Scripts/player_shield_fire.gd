@@ -61,8 +61,12 @@ func set_direction(new_direction):
 	shield_area.rotation_degrees = degrees
 	
 func set_active(state):
-	cpu_particles_2d.set_emitting(state)
-	element_collision_shape.disabled = !state
+	if shield_in_use and state:
+		cpu_particles_2d.set_emitting(state)
+		element_collision_shape.disabled = !state
+	else:
+		cpu_particles_2d.set_emitting(false)
+		element_collision_shape.disabled = true
 
 		
 func _process(delta):

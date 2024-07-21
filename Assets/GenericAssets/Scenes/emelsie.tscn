@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://d3na5hgni6png"]
+
+[ext_resource type="Texture2D" uid="uid://ew26f45a12oj" path="res://Assets/GenericAssets/Sprites/Light (1).png" id="1_sqd71"]
+[ext_resource type="Texture2D" uid="uid://b4g14xoh60gsr" path="res://Assets/GenericAssets/Sprites/emelsie.png" id="2_few6d"]
+[ext_resource type="Texture2D" uid="uid://dwh8owqe7xxot" path="res://Assets/GenericAssets/Sprites/emelsie_n.png" id="3_g5amf"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_oktow"]
+diffuse_texture = ExtResource("2_few6d")
+normal_texture = ExtResource("3_g5amf")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdgob"]
+atlas = SubResource("CanvasTexture_oktow")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_fklbr"]
+diffuse_texture = ExtResource("2_few6d")
+normal_texture = ExtResource("3_g5amf")
+
+[node name="Node2D" type="Node2D"]
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-1183, -518)
+scale = Vector2(8.68848, 5.76758)
+energy = 16.0
+blend_mode = 1
+texture = ExtResource("1_sqd71")
+height = 106.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("AtlasTexture_kdgob")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(-5, -14)
+texture = SubResource("CanvasTexture_fklbr")
