@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://olo5bjfoipif"]
+[gd_scene load_steps=22 format=3 uid="uid://olo5bjfoipif"]
 
 [ext_resource type="Texture2D" uid="uid://b1kfwb5txxygi" path="res://icon.svg" id="1_1l8go"]
 [ext_resource type="Texture2D" uid="uid://cyykpxl3p6tiq" path="res://Assets/FireAssets/Tiles/shield_down.png" id="1_rbbxb"]
@@ -15,6 +15,9 @@
 [ext_resource type="AudioStream" uid="uid://bawaxo2752qn2" path="res://Assets/Minecraft/item/shield/block4.wav" id="6_n88y5"]
 [ext_resource type="Texture2D" uid="uid://b6edjvynmv825" path="res://Assets/FireAssets/Tiles/shield_upleft.png" id="7_l7nh0"]
 [ext_resource type="Texture2D" uid="uid://b5gtugx21kmr" path="res://Assets/FireAssets/Tiles/shield_upright.png" id="8_dlo41"]
+[ext_resource type="AudioStream" uid="uid://bcxshiwf12igy" path="res://Assets/Minecraft/item/bucket/fill_lava1.wav" id="16_12j5r"]
+[ext_resource type="AudioStream" uid="uid://8pdrvg2rpmhj" path="res://Assets/Minecraft/entity/player/attack/strong1.wav" id="16_q1mel"]
+[ext_resource type="AudioStream" uid="uid://ccbtl17co1ok3" path="res://Assets/Minecraft/entity/player/attack/crit1.wav" id="16_uxaw5"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bb1md"]
 animations = [{
@@ -92,8 +95,12 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wwa25"]
-radius = 101.0
-height = 980.0
+radius = 147.48
+height = 1490.76
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rxd7k"]
+radius = 217.29
+height = 1310.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
 z_index = 5
@@ -110,8 +117,8 @@ z_as_relative = false
 [node name="CPUParticles2D" type="CPUParticles2D" parent="ShieldArea"]
 position = Vector2(142, 0)
 emitting = false
-amount = 30
-lifetime = 2.0
+amount = 33
+lifetime = 3.0
 speed_scale = 3.48
 lifetime_randomness = 1.0
 texture = ExtResource("1_1l8go")
@@ -120,39 +127,53 @@ emission_sphere_radius = 26.24
 direction = Vector2(0, 0)
 spread = 5.73
 gravity = Vector2(0, 0)
-initial_velocity_min = 6.45
-initial_velocity_max = 842.84
+initial_velocity_min = 372.99
+initial_velocity_max = 628.11
 angle_min = -10.0
 angle_max = 10.5
 scale_amount_min = 0.1
 
-[node name="StartBlockingSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
-visible = false
-stream = ExtResource("3_178xf")
-bus = &"PlayerSFX"
-
 [node name="ElementCollisionShape" type="CollisionShape2D" parent="ShieldArea"]
-visible = false
-position = Vector2(420, -4)
+position = Vector2(656.542, -5)
 rotation = 1.56683
 shape = SubResource("CapsuleShape2D_wwa25")
 
+[node name="StartBlockingSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
+stream = ExtResource("3_178xf")
+bus = &"PlayerSFX"
+
 [node name="StopBlockingSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
-visible = false
 stream = ExtResource("4_m1dnv")
 bus = &"PlayerSFX"
 
 [node name="GetShield" type="AudioStreamPlayer2D" parent="ShieldArea"]
-visible = false
 stream = ExtResource("5_m187b")
 bus = &"PlayerSFX"
 
 [node name="PackAwayShield" type="AudioStreamPlayer2D" parent="ShieldArea"]
-visible = false
 position = Vector2(-4, 2)
 stream = ExtResource("6_n88y5")
 bus = &"PlayerSFX"
 
 [node name="FailSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
-visible = false
 position = Vector2(-4, 6)
+stream = ExtResource("16_q1mel")
+bus = &"PlayerSFX"
+
+[node name="CriticalHit" type="AudioStreamPlayer2D" parent="ShieldArea"]
+stream = ExtResource("16_uxaw5")
+max_polyphony = 4
+bus = &"PlayerSFX"
+
+[node name="FireSound" type="AudioStreamPlayer2D" parent="ShieldArea"]
+stream = ExtResource("16_12j5r")
+bus = &"PlayerSFX"
+
+[node name="BlockArea" type="Area2D" parent="."]
+
+[node name="BlockCollisionShape" type="CollisionShape2D" parent="BlockArea"]
+position = Vector2(2.22821e-06, -5)
+shape = SubResource("CapsuleShape2D_rxd7k")
+
+[connection signal="area_entered" from="ShieldArea" to="." method="_on_shield_area_area_entered"]
+[connection signal="area_entered" from="BlockArea" to="." method="_on_block_area_area_entered"]

@@ -1,12 +1,78 @@
-[gd_scene load_steps=6 format=3 uid="uid://cera0f328mcil"]
+[gd_scene load_steps=22 format=3 uid="uid://cera0f328mcil"]
 
 [ext_resource type="Script" path="res://Assets/Code/Scripts/indigo_player_character.gd" id="1_k041e"]
+[ext_resource type="Texture2D" uid="uid://ddv1oumjch133" path="res://Assets/CharacterAssets/Indigo/idle_blinking/1.png" id="2_2i471"]
 [ext_resource type="Texture2D" uid="uid://b1kfwb5txxygi" path="res://icon.svg" id="2_a366i"]
 [ext_resource type="Script" path="res://Assets/Code/Scripts/indigo_player_collision.gd" id="2_f34yc"]
+[ext_resource type="Texture2D" uid="uid://ct3xe0utncjow" path="res://Assets/CharacterAssets/Indigo/idle_blinking/2.png" id="3_g6q8n"]
 [ext_resource type="PackedScene" uid="uid://olo5bjfoipif" path="res://Assets/GenericAssets/Scenes/player_shield_fire.tscn" id="4_5rpml"]
+[ext_resource type="Texture2D" uid="uid://bj734iqxghq22" path="res://Assets/CharacterAssets/Indigo/idle_blinking/3.png" id="4_xxte4"]
+[ext_resource type="Texture2D" uid="uid://dqhebj7a2p2py" path="res://Assets/CharacterAssets/Indigo/idle_blinking/4.png" id="5_3rijw"]
+[ext_resource type="Texture2D" uid="uid://ce8qrub2610u" path="res://Assets/CharacterAssets/Indigo/idle_blinking/5.png" id="6_d1jmd"]
+[ext_resource type="Texture2D" uid="uid://cnohml7thlnbg" path="res://Assets/CharacterAssets/Indigo/idle_blinking/6.png" id="7_45rcy"]
+[ext_resource type="Texture2D" uid="uid://cki1pfoshjjgs" path="res://Assets/CharacterAssets/Indigo/idle_blinking/7.png" id="8_odkmq"]
+[ext_resource type="Texture2D" uid="uid://b7v50vb6qgdb8" path="res://Assets/CharacterAssets/Indigo/idle_blinking/8.png" id="9_aq3k3"]
+[ext_resource type="Texture2D" uid="uid://dbcr3c703qe8t" path="res://Assets/CharacterAssets/Indigo/idle_blinking/9.png" id="10_dowif"]
+[ext_resource type="Texture2D" uid="uid://ccvpbkmxjg6nf" path="res://Assets/CharacterAssets/Indigo/idle_blinking/10.png" id="11_o1wiw"]
+[ext_resource type="Texture2D" uid="uid://s432adp10oli" path="res://Assets/CharacterAssets/Indigo/idle_blinking/11.png" id="12_s4fmm"]
+[ext_resource type="Texture2D" uid="uid://cgor6d7bsbhvc" path="res://Assets/CharacterAssets/Indigo/idle_blinking/12.png" id="13_adr5s"]
+[ext_resource type="Texture2D" uid="uid://b8uwcw1mwo1su" path="res://Assets/CharacterAssets/Indigo/idle_blinking/13.png" id="14_ij101"]
+[ext_resource type="Texture2D" uid="uid://dyrvlmmntjegi" path="res://Assets/CharacterAssets/Indigo/idle_blinking/14.png" id="15_qniu7"]
+[ext_resource type="Script" path="res://Assets/Code/Scripts/indigo_player_animations.gd" id="16_bpq8g"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_32p80"]
-size = Vector2(112, 112)
+[sub_resource type="SpriteFrames" id="SpriteFrames_4qjd6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_2i471")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_g6q8n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xxte4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_3rijw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_d1jmd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_45rcy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_odkmq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_aq3k3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_dowif")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_o1wiw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_s4fmm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_adr5s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_ij101")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_qniu7")
+}],
+"loop": false,
+"name": &"idle_blinking",
+"speed": 30.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3dd4r"]
+radius = 73.5
+height = 387.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 z_index = 5
@@ -14,17 +80,25 @@ z_as_relative = false
 script = ExtResource("1_k041e")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_4qjd6")
+animation = &"idle_blinking"
+frame = 13
+frame_progress = 1.0
+script = ExtResource("16_bpq8g")
 
 [node name="Icon" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("2_a366i")
 
 [node name="DamageArea" type="Area2D" parent="."]
 script = ExtResource("2_f34yc")
 
 [node name="DamageCollisionShape" type="CollisionShape2D" parent="DamageArea"]
-shape = SubResource("RectangleShape2D_32p80")
+position = Vector2(-0.5, -0.5)
+shape = SubResource("CapsuleShape2D_3dd4r")
 
 [node name="FireShield" parent="DamageArea" instance=ExtResource("4_5rpml")]
+visible = false
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="DamageArea"]
 

@@ -9,15 +9,26 @@ extends AnimatedSprite2D
 @onready var fail_sound = $ShieldArea/FailSound
 @onready var element_collision_shape = $ShieldArea/ElementCollisionShape
 @onready var animated_sprite_2d = $"."
+@onready var block_collision_shape = $ShieldArea/BlockCollisionShape
+@onready var critical_hit = $ShieldArea/CriticalHit
+@onready var fire_sound = $ShieldArea/FireSound
 
 @export var scale_idle := 0.3
 @export var scale_blocking := 0.38
 @export var scale_element_active := 0.40
+@export var shield_runtime_new := 500
+@export var same_element_damage := 6
+@export var different_element_damage := 15
+@export var standard_durability := 3
 
+var shield_runtime
 var shield_blocking := false
 var shield_element_active := false
 var shield_in_use := false
 signal enemy_entered_shield_effect(enemy)
+signal shield_block_active(state)
+
+
 const ELEMENT := "FIRE"
 const TYPE := "SHIELD"
 var degrees
@@ -31,7 +42,9 @@ func get_type():
 	return TYPE
 
 func _ready():
-	pass # Replace with function body.
+	shield_runtime = shield_runtime_new
+	degrees = 0
+
 
 func select_shield(state):
 	if shield_durability <= 0:
@@ -63,33 +76,38 @@ func set_direction(new_direction):
 		degrees += 360
 		
 	shield_area.rotation_degrees = degrees
-	
-func set_active(state):
-	pass
 
-
-	
-
-		
 func _process(delta):
 	if !shield_in_use:
 		print("Fire Not In Use")
 		animated_sprite_2d.set_animation("off")
 		animated_sprite_2d.set_scale(Vector2(scale_idle, scale_idle))
 		return
-	print("shield in use")
+	print(shield_runtime)
+	
+	if shield_element_active:
+		shield_runtime -= 1
+	
+	if shield_runtime <= 0:
+		shield_element_active = false
 	
 	#Set Flames on or off//Flames also Blocks automatically
 	if Input.is_action_just_pressed("shield_action") and shield_in_use:
+		fire_sound.play()
+		shield_runtime = shield_runtime_new
 		cpu_particles_2d.set_emitting(true)
+		shield_element_active = true
 		element_collision_shape.disabled = false
 		shield_blocking = true
+		shield_block_active.emit(true)
 		animated_sprite_2d.set_scale(Vector2(scale_element_active, scale_element_active))
 	
-	if Input.is_action_just_released("shield_action") and shield_in_use:
+	if Input.is_action_just_released("shield_action") and shield_in_use or shield_runtime < 1:
 		cpu_particles_2d.set_emitting(false)
+		shield_element_active = false
 		element_collision_shape.disabled = true
 		shield_blocking = false
+		shield_block_active.emit(false)
 		animated_sprite_2d.set_scale(Vector2(scale_idle, scale_idle))
 		
 	if degrees < 22 or degrees > 337:
@@ -126,16 +144,44 @@ func _process(delta):
 		cpu_particles_2d.set_z_index(7)
 	animated_sprite_2d.play()
 	
-	if Input.is_action_just_pressed("shield_block"):
+	if Input.is_action_just_pressed("shield_block") and !shield_element_active:
 		print("Block Start")
 		shield_blocking = true
+		shield_block_active.emit(true)
 		animated_sprite_2d.set_scale(Vector2(scale_blocking, scale_blocking))
 		start_blocking_sound.play()
 	#animation Play blocking(degrees)
 	
-	if Input.is_action_just_released("shield_block"):
+	if Input.is_action_just_released("shield_block") and !shield_element_active:
 		print("Block Ended")
 		animated_sprite_2d.set_scale(Vector2(scale_idle, scale_idle))
 		shield_blocking = false
+		shield_block_active.emit(false)
 		stop_blocking_sound.play()
 		#animation Play blocking(degrees)
+
+
+#Element Weapon Code. Damage if 
+func _on_shield_area_area_entered(area):
+	if area.has_method("get_element") and area.has_method("set_damage"):
+		if area.get_element != ELEMENT:
+			critical_hit.play()
+			area.set_damage(different_element_damage)
+			
+		if area.get_element == ELEMENT:
+			area.set_damage(same_element_damage)
+			
+
+			
+func _on_block_area_area_entered(area):
+	if area.has_method("get_element") and area.has_method("set_damage") and shield_blocking:
+		if area.get_element != ELEMENT:	
+			shield_durability -= 1
+	pass # Replace with function body.
+
+
+func set_durability(value):
+	if value == 0:
+		shield_durability = standard_durability
+	else:
+		shield_durability = value

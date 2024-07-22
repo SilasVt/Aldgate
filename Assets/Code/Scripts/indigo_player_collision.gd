@@ -59,18 +59,25 @@ func _process(_delta):
 		Vector2(-1, 0):
 			equipped_shield_element = "FIRE"
 			fire_shield.select_shield(true)
+			#water_shield.select_shield(false)
+			#earth_shield.select_shield(false)
+			#wind_shield.select_shield(false)
 			print("FIRE")
 		Vector2(1, 0):
 			equipped_shield_element = "WATER"
-			fire_shield.select_shield(false)
+			#fire_shield.select_shield(true)
+			#earth_shield.select_shield(false)
+			#wind_shield.select_shield(false)
 			print("WATER")
 		Vector2(0, -1):
 			equipped_shield_element = "EARTH"
-			fire_shield.select_shield(false)
+			#water_shield.select_shield(true)
+			#fire_shield.select_shield(false)
+			#wind_shield.select_shield(false)
 			print("EARTH")
 		Vector2(0, 1):
 			equipped_shield_element = "WIND"
-			fire_shield.select_shield(false)
+			#wind_shield.select_shield(true)
 			print("WIND")
 	
 	

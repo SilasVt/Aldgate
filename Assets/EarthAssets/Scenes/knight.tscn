@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6uj1ijdpq5hg"]
+
+[ext_resource type="Texture2D" uid="uid://b1kfwb5txxygi" path="res://icon.svg" id="1_2nwr8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_02djc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_2nwr8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vc535"]
+radius = 638.614
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wbcbk"]
+radius = 106.677
+
+[node name="Node2D" type="Node2D"]
+z_as_relative = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_02djc")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="ListeningArea" type="Area2D" parent="Area2D"]
+
+[node name="ListeningCollision" type="CollisionShape2D" parent="Area2D/ListeningArea"]
+shape = SubResource("CircleShape2D_vc535")
+
+[node name="TouchArea" type="Area2D" parent="Area2D"]
+
+[node name="TouchCollision" type="CollisionShape2D" parent="Area2D/TouchArea"]
+shape = SubResource("CircleShape2D_wbcbk")
+
+[node name="SeeingArea" type="Area2D" parent="Area2D"]
+rotation = -1.5708
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D/SeeingArea"]
+polygon = PackedVector2Array(0, 1, -98, 102, -419, 974, 492, 977, 101, 104)
