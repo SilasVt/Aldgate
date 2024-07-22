@@ -1,5 +1,4 @@
 extends AnimatedSprite2D
-
 @onready var shield_area = $ShieldArea
 @onready var cpu_particles_2d = $ShieldArea/CPUParticles2D
 @onready var start_blocking_sound = $ShieldArea/StartBlockingSound
@@ -59,23 +58,9 @@ func select_shield(state):
 	if !state and shield_in_use:
 		shield_in_use = false
 		pack_away_shield.play()
-		#Set Shield Visible
-		#Play Shield Get animation
+
 	
-func set_direction(new_direction):
-	#Calculate Direction for raycast
-	# Get the angle in radians between the direction vector and the positive x-axis
-	# Convert the angle from radians to degrees
-	# Normalize the angle to be between 0 and 360 degrees
-	if new_direction == null:
-		return
-		
-	var radians = atan2(new_direction.y, new_direction.x)
-	degrees = radians * 180 / PI
-	if degrees < 0:
-		degrees += 360
-		
-	shield_area.rotation_degrees = degrees
+
 
 func _process(delta):
 	if !shield_in_use:
