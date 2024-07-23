@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ct0daxs4a15kk"]
+
+[ext_resource type="Script" path="res://Assets/Code/Scripts/shield_component.gd" id="1_78p7e"]
+
+[node name="ShieldComponent" type="Node2D"]
+script = ExtResource("1_78p7e")
