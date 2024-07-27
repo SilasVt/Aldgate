@@ -11,6 +11,7 @@ var min_speed := 400
 @onready var fire_shield = $DamageArea/FireShield
 
 func _physics_process(delta):
+	position
 	
 	if damage_area.dead:
 		return

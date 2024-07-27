@@ -16,6 +16,7 @@ signal health_max()
 signal health_default()
 
 var health := 0
+var dead = false
 
 func get_health():
 	return health
@@ -89,3 +90,9 @@ func check_health_signals():
 		health_max.emit()
 	if health == default_health:
 		health_default.emit()
+		
+func _process(delta):
+	if health <= 0:
+		dead = true
+	else:
+		dead = false
