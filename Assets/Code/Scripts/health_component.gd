@@ -2,6 +2,7 @@ extends Node2D
 class_name HealthComponent
 
 @export var default_health := 100
+@export var alive_by_default := true
 @export var max_health := 100
 @export var critical_health_level := 100
 
@@ -15,9 +16,12 @@ signal health_critical()
 signal health_max()
 signal health_default()
 
-var health := 0
-var dead = false
+var health : int
+var dead : bool
 
+func get_death():
+	return dead
+	
 func get_health():
 	return health
 
@@ -80,6 +84,7 @@ func remove_health(subtraction):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	health = default_health
+	dead = alive_by_default
 
 func check_health_signals():
 	if health <= 0:
