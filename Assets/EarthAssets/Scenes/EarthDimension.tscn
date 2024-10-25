@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://pkjch15hlgfn"]
+[gd_scene load_steps=3 format=3 uid="uid://pkjch15hlgfn"]
 
 [ext_resource type="PackedScene" uid="uid://cera0f328mcil" path="res://Assets/GenericAssets/Scenes/indigo.tscn" id="1_vqpmd"]
+
+[sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_lhtt5"]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_vqpmd")]
 position = Vector2(4, 2)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamOggVorbis_lhtt5")
