@@ -85,7 +85,7 @@ func _process(_delta):
 	var direction_t = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).normalized()
 	if direction_t != Vector2(0, 0):
 		direction = direction_t
-	fire_shield.set_direction(direction)
+	#fire_shield.set_direction(direction)
 	#water_shield.set_direction(direction)
 	#earth_shield.set_direction(direction)
 	#wind_shield.set_direction(direction)

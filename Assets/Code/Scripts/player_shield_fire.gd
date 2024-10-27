@@ -64,7 +64,7 @@ func select_shield(state):
 
 func _process(delta):
 	if !shield_in_use:
-		print("Fire Not In Use")
+		#print("Fire Not In Use")
 		animated_sprite_2d.set_animation("off")
 		animated_sprite_2d.set_scale(Vector2(scale_idle, scale_idle))
 		return

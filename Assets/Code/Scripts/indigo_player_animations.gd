@@ -13,7 +13,7 @@ func _process(delta):
 	blink()
 
 func blink():
-	print(blink_timer)
+	#print(blink_timer)
 	blink_timer -= 1
 	if blink_timer <= 0:
 		blink_timer = randi_range(min_time_between_blink, max_time_between_blink)
